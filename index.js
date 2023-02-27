@@ -14,18 +14,15 @@ app.use(express.json());
 
 
 
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.xwlx9fx.mongodb.net/?retryWrites=true&w=majority`;
 //console.log(uri);
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
 
-
 async function run() {
   try {
     const countryCollection = client.db('restCountry').collection('countries');
-
 
 
 
@@ -39,48 +36,24 @@ async function run() {
       // if(search.length){
 
       // }
-      // const query = {area: { $lt: 65300}}
-      // const query = {region: { $in: [Oceania]}}
       const order = req.query.order === 'asc' ? 1 : -1;
       const cursor = countryCollection.find(query).sort({ name: order });
       const countries = await cursor.toArray();
-      // const countries = await cursor.limit(10).toArray();
       res.send(countries);
-      // const count = await countryCollection.estimatedDocumentCount();
-      // res.send({count, countries});
+
 
 
     });
 
 
 
-
-//     app.get('/pagination', async (req, res) => {
-//       const query = {};
-//       const cursor = countryCollection.find(query)
-//       const countries = await cursor.toArray();
-//       // const countries = await cursor.limit(10).toArray();
-//       const count = await countryCollection.estimatedDocumentCount();
-//       res.send({count, countries});
-// });
-
-
-
-
-
     app.get('/SmallerLithuania', async (req, res) => {
-      // const query = {};
       const query = { area: { $lt: 65300 } }
-      // const query = {region: { $in: [Oceania]}}
       const order = req.query.order === 'asc' ? 1 : -1;
       const cursor = countryCollection.find(query).sort({ name: order });
       const countries = await cursor.toArray();
       // const countries = await cursor.limit(10).toArray();
       res.send(countries);
-      // const count = await countryCollection.estimatedDocumentCount();
-      // res.send({count, countries});
-
-
     });
 
 
