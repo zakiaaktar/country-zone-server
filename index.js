@@ -27,35 +27,23 @@ async function run() {
 
 
     app.get('/countries', async (req, res) => {
-
-      // const search = req.query.search;
-      // console.log(search);
-
       const query = {};
-      // let query = {};
-      // if(search.length){
-
-      // }
       const order = req.query.order === 'asc' ? 1 : -1;
       const cursor = countryCollection.find(query).sort({ name: order });
       const countries = await cursor.toArray();
       res.send(countries);
-
-
-
     });
+
 
 
 
     app.get('/SmallerLithuania', async (req, res) => {
       const query = { area: { $lt: 65300 } }
-      const order = req.query.order === 'asc' ? 1 : -1;
-      const cursor = countryCollection.find(query).sort({ name: order });
+      const cursor = countryCollection.find(query)
       const countries = await cursor.toArray();
       // const countries = await cursor.limit(10).toArray();
       res.send(countries);
     });
-
 
   }
   finally {
